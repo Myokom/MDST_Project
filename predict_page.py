@@ -38,7 +38,11 @@ def show_predict_page():
     # Convert the selected option to its numerical value
     gender = gender_mapping.get(selected_gender)
 
-    hip_circumference = st.slider("Hip Circumference (cm)", min_value=50, max_value=5000, step=5, value=150)
+    hip_circumference = st.number_input(
+        label = "Hip Circumference (cm)", 
+        value = None,
+        step = 1,
+        placeholder = "Type a number...")
     
     moderate_work_activity_mapping = {
         "Yes": 1, 
