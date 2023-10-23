@@ -17,7 +17,7 @@ def predict_diabetes(logreg, scaler, user_input):
     return prediction
 
 def show_predict_page():
-    st.title("Do you have diabetes or not? :mending_heart: :hospital:")
+    st.title("Do you have diabetes or not?  :mending_heart: :hospital:")
 
     st.write("""### We need some information to make a prediction""")
     
