@@ -62,7 +62,9 @@ def show_predict_page():
     ok = st.button("Predict")
 
     if ok:
-        if gender is not None and moderate_work_activity is not None:
+        if gender is None or moderate_work_activity is None or hip_circumference is None:
+            st.warning("Please make valid selections and provide hip circumference before predicting.")
+        else:
             # Create a numpy array from the user input
             user_input = np.array([[gender, hip_circumference, moderate_work_activity]])
             user_input = user_input.astype(float)
@@ -82,10 +84,15 @@ def show_predict_page():
             # Get the corresponding string for the prediction
             predicted_string = output_mapping.get(prediction[0], "Unknown")
 
-            # Display the mapped prediction string
-            st.subheader(f"{predicted_string}")
-        else:
-            st.warning("Please make valid selections before predicting.")
+            # Display the mapped prediction string using appropriate streamlit function
+            if prediction[0] == 1:
+                st.error(predicted_string)
+            elif prediction[0] == 2:
+                st.success(predicted_string)
+                st.balloons()
+            else:
+                st.subheader(predicted_string)  # Default for any other unexpected values
+
 if __name__ == "__main__":
     main()
  
