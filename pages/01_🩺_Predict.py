@@ -77,8 +77,8 @@ def show_predict_page():
             
             # Mapping of model outputs to desired strings
             output_mapping = {
-                1: ":pensive: Our prediction says you may have diabetes. You can read more about diabetes on [CDC's website](https://www.cdc.gov/diabetes/basics/symptoms.html)",
-                2: ":smiley: Our predictions suggests you may not have diabetes"
+                0: ":smiley: Our predictions suggests you may not have diabetes",
+                1: ":pensive: Our prediction says you may have diabetes. You can read more about diabetes on [CDC's website](https://www.cdc.gov/diabetes/basics/symptoms.html)"
             }
             
             # Get the corresponding string for the prediction
@@ -87,7 +87,7 @@ def show_predict_page():
             # Display the mapped prediction string using appropriate streamlit function
             if prediction[0] == 1:
                 st.error(predicted_string)
-            elif prediction[0] == 2:
+            elif prediction[0] == 0:
                 st.success(predicted_string)
                 st.balloons()
             else:
