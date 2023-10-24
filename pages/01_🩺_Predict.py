@@ -93,8 +93,7 @@ def show_predict_page():
             else:
                 st.subheader(predicted_string)  # Default for any other unexpected values
 
-if __name__ == "__main__":
-    main()
+show_predict_page()
  
 
 

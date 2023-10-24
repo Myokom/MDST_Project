@@ -1,3 +1,4 @@
+
 import streamlit as st
 from streamlit_lottie import st_lottie
 import json
@@ -10,6 +11,7 @@ from eda_page import show_eda_page
 import pandas as pd
 import numpy as np
 
+#########################################################
 
 def load_lottie_url(url: str):
     r = requests.get(url)

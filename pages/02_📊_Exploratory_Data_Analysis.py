@@ -4,7 +4,7 @@ import json
 import requests
 
 import joblib
-from predict_page import show_predict_page
+
 
 import pandas as pd
 import numpy as np
@@ -21,3 +21,5 @@ def show_eda_page():
     lottie_animation = load_lottie_url(lottie_url)
 
     st_lottie(lottie_animation, key="sidebar_lottie")
+
+show_eda_page()
