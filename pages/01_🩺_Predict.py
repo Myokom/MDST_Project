@@ -2,6 +2,11 @@ import streamlit as st
 from joblib import load
 import numpy as np
 
+st.set_page_config(
+    page_title = "Predict", 
+    page_icon = "🩺",
+    layout = "centered"
+)
 
 def load_model_and_scaler():
     """Loads the logistic regression model and scaler from joblib files."""
@@ -89,7 +94,6 @@ def show_predict_page():
                 st.error(predicted_string)
             elif prediction[0] == 0:
                 st.success(predicted_string)
-                st.balloons()
             else:
                 st.subheader(predicted_string)  # Default for any other unexpected values
 

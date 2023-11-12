@@ -2,7 +2,8 @@ import streamlit as st
 
 st.set_page_config(
     page_title = "Homepage", 
-    page_icon = "👋"
+    page_icon = "👋",
+    layout= "centered"
 )
 
 st.title("Welcome to our MDST Project! 👋")
@@ -19,6 +20,8 @@ def show_homepage():
     
     st.header("Reference")
     st.markdown("[NHANES 2017-2020](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?Cycle=2017-2020)")
+
+
 
 
 show_homepage()
