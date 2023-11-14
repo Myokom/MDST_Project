@@ -21,7 +21,7 @@ st.set_page_config(
 # Cache the data loading
 @st.cache_data
 def load_data():
-    df = pd.read_csv('/Users/tobiasmadsen/Documents/UMich/MDST/NHANES/data_files/eda_data.csv')
+    df = pd.read_csv('./data_files/eda_data.csv')
     return df
 
 def load_lottie_url(url: str):
