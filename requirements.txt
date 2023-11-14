@@ -5,3 +5,6 @@ scikit-learn
 streamlit
 joblib
 streamlit_lottie
+requests
+ydata_profiling
+streamlit_pandas_profiling
