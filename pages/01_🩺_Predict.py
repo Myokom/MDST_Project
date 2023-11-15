@@ -9,6 +9,64 @@ st.set_page_config(
     layout = "centered"
 )
 
+def display_image_on_hover(image_url, i):
+    # Generate unique class names for each image
+    hover_class = f'hoverable_{i}'
+    tooltip_class = f'tooltip_{i}'
+    image_popup_class = f'image-popup_{i}'
+
+    # Define the unique CSS for each image
+    hover_css = f'''
+        .{hover_class} {{
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }}
+        .{hover_class} .{tooltip_class} {{
+            opacity: 0;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: opacity 0.5s;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 4px;
+            border-radius: 4px;
+            text-align: center;
+            white-space: nowrap;
+        }}
+        .{hover_class}:hover .{tooltip_class} {{
+            opacity: 1;
+        }}
+        .{image_popup_class} {{
+            position: absolute;
+            display: none;
+            background-image: none;
+            width: 200px; /* Initial width */
+            height: 200px; /* Initial height */
+            transition: width 0.5s, height 0.5s; /* Add transition for smooth effect */
+        }}
+        .{hover_class}:hover .{image_popup_class} {{
+            display: block;
+            background-image: url({image_url});
+            background-size: cover;
+            z-index: 999;
+            width: 650px; /* Adjusted width on hover */
+            height: 300px; /* Adjusted height on hover */
+        }}
+    '''
+    tooltip_css = f"<style>{hover_css}</style>"
+
+    # Define the html for each image with the modified link
+    image_hover = f'''
+    <div class="{hover_class}">
+        <a href="{image_url}" target="_blank">{("Women's (cm)", "Men's (cm)")[i]}</a>
+        <div class="{image_popup_class}"></div>
+    </div>
+'''
+    return tooltip_css, image_hover
+
 def calculate_bmi_pounds_feet_inches(weight_pounds, height_feet, height_inches):
      total_inches = (height_feet * 12) + height_inches
      height_m = total_inches * 0.0254
@@ -56,7 +114,7 @@ def show_predict_page():
         placeholder = "Choose a response...")
 
     # Age
-    Age_Years = st.slider('How old are you?', 0, 80, 25)
+    Age_Years = st.slider('How old are you?', 1, 80, 25)
 
     # Race
     Race = st.selectbox(
@@ -71,10 +129,10 @@ def show_predict_page():
     st.subheader('Body Measurements 📐')
  
     # User selects the unit system
-    unit_system = st.radio("Select the unit system", ['Imperial (pounds, feet, inches)', 'Metric (kilograms, centimeters)'])
+    unit_system = st.radio("Select the unit system for your height and weight", ['Imperial (pounds, feet, inches)', 'Metric (kilograms, centimeters)'])
 
     if unit_system == 'Imperial (pounds, feet, inches)':
-        weight_pounds = st.number_input('Enter your weight (in pounds):', min_value=1.0, max_value=600.0, step=0.1, value=1.0, placeholder="Type a number...")
+        weight_pounds = st.number_input('Enter your weight (in pounds):', min_value=1.0, max_value=600.0, step=0.5, value=1.0, placeholder="Type a number...")
         height_feet = st.number_input('Enter your height (feet):', min_value=0, max_value=7, step=1, value=1, placeholder="Type a number...")
         height_inches = st.number_input('Enter your height (additional inches):', min_value=0, max_value=11, step=1, value=1, placeholder="Type a number...")
         BMI_Value = calculate_bmi_pounds_feet_inches(weight_pounds, height_feet, height_inches)
@@ -82,15 +140,31 @@ def show_predict_page():
         weight_kg = st.number_input('Enter your weight (in kilograms):', min_value=1.0, max_value=300.0, step=0.1, value=1.0, placeholder="Type a number...")
         height_cm = st.number_input('Enter your height (in centimeters):', min_value=50, max_value=250, step=1,  value=50, placeholder="Type a number...")
         BMI_Value = calculate_bmi_metric(weight_kg, height_cm)
+
+    # URLs to Images showing size conversions
+    url_list = ["https://www.alooppa.com/wp-content/uploads/2021/09/Sizes-Wm-cm.png",
+                "https://www.alooppa.com/wp-content/uploads/2021/09/Sizes-Mn-cm.png"]
+
+    with st.expander("🤨 Don't know you Hip & Waist Size in CM? *Waist* no time and get an estimate here  →", expanded=False):
+    # Generate the CSS only once to avoid duplication
+        generated_css = ""
+        for i, url in enumerate(url_list):
+            css, html = display_image_on_hover(url, i)
+            generated_css += css
+            st.markdown(html, unsafe_allow_html=True)
+
+        # Render the CSS at the end or beginning
+        st.markdown(generated_css, unsafe_allow_html=True)
+
     
     Hip_Circumference_cm = st.number_input(
-        label = "Hip Circumference (cm)", 
+        label = "Hip Circumference *(cm)*", 
         value = None,
         step = 1,
         placeholder = "Type a number...")
     
     Waist_Circumference_cm = st.number_input(
-        label = "Waist Circumference (cm)", 
+        label = "Waist Circumference *(cm)*", 
         value = None,
         step = 1,
         placeholder = "Type a number...")
@@ -124,7 +198,7 @@ def show_predict_page():
         placeholder = "Type a number...")
 
     FastFood_Meals = st.number_input(
-        label = "Continuation of last question: How many of those meals did you get from a fast-food or pizza place?",
+        label = "**Continuation of last question:** How many of those meals did you get from a fast-food or pizza place?",
         min_value = 0,
         value = None,
         step = 1,
@@ -143,19 +217,22 @@ def show_predict_page():
         value = None,
         step = 1,
         placeholder = "Type a number...")
-    
+
     Past_12_Mo_Alco = st.select_slider(
         label="How frequently have you drunk alcoholic beverages in the past 12 months",
         options=[
-            "Every day", 
-            "Nearly every day", "3 to 4 times a week", 
-            "2 times a week",
-            "Once a week", 
-            "2 to 3 times a month", "Once a month",
-            "7 to 11 times in the last year", 
+            "Never in the last year",
+            "1 to 2 times in the last year",
             "3 to 6 times in the last year",
-            "1 to 2 times in the last year", 
-            "Never in the last year"])
+            "7 to 11 times in the last year",
+            "Once a month",
+            "2 to 3 times a month",
+            "Once a week",
+            "2 times a week",
+            "3 to 4 times a week",
+            "Nearly every day",
+            "Every day"])
+
 
     # Button to predict
     ok = st.button("Predict")

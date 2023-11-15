@@ -19,10 +19,15 @@ def show_homepage():
     
     For more information about NHANES please visit the [NHANES 2017-2020 Website](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?Cycle=2017-2020)""")
     
+    st.markdown("""
+    ***Disclaimer***
+                
+    Our prediction model is based on a relatively small amount of predictor variables. We understand diabetes is a serious medical condition that can be caused by any number of genetic, health and lifestyle factors therefore we cannot predict whether or not an individual has or will develop diabetes with a high level of certainty. Additionally, the information entered into this application should remain private and will not be stored. This model is simply an interactive way of displaying what we have learned and the knowledge we have gained this semester as members of MDTS :slightly_smiling_face: If you are curious you can check out the code on [Github](https://github.com/Myokom/MDST_Project)""")
 
+    
 
     st.subheader("Project Made By:")
-    st.markdown("[Tobias Madsen](https://www.linkedin.com/in/tob1asmadsen/), Anthony Hernandez, Elle Chen, Jaegun Song, and Kiley Price")
+    st.markdown("[Tobias Madsen](https://www.linkedin.com/in/tob1asmadsen/), [Anthony Hernandez](https://www.linkedin.com/in/a-i-hernandez/), Elle Chen, Jaegun Song, and [Kiley Price](https://www.linkedin.com/in/kiley-price/)")
     st.markdown("*Proud members of [Michigan Data Science Team](https://mdst.club) 🚀*")
 
 
